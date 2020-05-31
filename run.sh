@@ -1,6 +1,6 @@
 #! /bin/bash
 rm -rf *.o
-gcc -c *.c
+gcc -c $1.c
 gcc -o $1 *.o
 rm -rf *.o
 ./$1
