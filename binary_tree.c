@@ -29,32 +29,19 @@ Node_ptr create_node(int value)
 
 Node_ptr insert_node(Node_ptr tree, int value)
 {
-  if (tree == NULL)
+  Node_ptr *root = &tree;
+  while (*root != NULL)
   {
-    return create_node(value);
-  }
-
-  Node_ptr p_walk = tree;
-  Node_ptr root;
-  while (p_walk != NULL)
-  {
-    root = p_walk;
-    if (p_walk->value > value)
+    if ((*root)->value > value)
     {
-      p_walk = p_walk->left;
+      root = &(*root)->left;
     }
     else
     {
-      p_walk = p_walk->right;
+      root = &(*root)->right;
     }
   }
-
-  if (root->value > value)
-  {
-    root->left = create_node(value);
-    return tree;
-  }
-  root->right = create_node(value);
+  *root = create_node(value);
   return tree;
 }
 
@@ -97,28 +84,29 @@ Node_ptr create_tree(int *list, int length)
 
 void print_in_order(Node_ptr tree, int hight)
 {
-  Node_ptr *roots = malloc(sizeof(struct node*) * (hight - 1));
+  Node_ptr *roots = malloc(sizeof(struct node *) * (hight - 1));
   Node_ptr p_walk = tree;
   int index = 0;
 
   while (index >= 0)
   {
-   if (p_walk != NULL)
-   {
-     roots[index] = p_walk;
-     index++;
-     p_walk = p_walk->left;
-   } else
-   {
-     index--;
+    if (p_walk != NULL)
+    {
+      roots[index] = p_walk;
+      index++;
+      p_walk = p_walk->left;
+    }
+    else
+    {
+      index--;
 
-     if (index < 0)
-     {
-       return;
-     }
-     printf("%d ", roots[index]->value);
-     p_walk = roots[index]->right;
-   }
+      if (index < 0)
+      {
+        return;
+      }
+      printf("%d ", roots[index]->value);
+      p_walk = roots[index]->right;
+    }
   }
 }
 
